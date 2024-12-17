@@ -6,4 +6,13 @@
 <select id="getDepartmentById" resultType="com.easy.bean.Department">
     select * from department where id=#{id}
     </select>
+
+    <select id="getDepartments" resultType="com.easy.bean.Department">
+        select * from department
+            <where>
+        <if test="id != null">
+            id=#{id}
+        </if>
+            </where>
+    </select>
 </mapper>

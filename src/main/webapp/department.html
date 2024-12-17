@@ -1,10 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <base href="http://localhost:8080/">
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="static/layui/css/layui.css">
 </head>
 <body>
-部门管理
+<table class="layui-table" lay-data="{url:'/department/list', page:true, id:'datalist'}" lay-filter="test">
+    <thead>
+    <tr>
+        <th lay-data="{field:'id', sort: true}">ID</th>
+        <th lay-data="{field:'code'}">编号</th>
+        <th lay-data="{field:'info', sort: true}">部门名称</th>
+    </tr>
+    </thead>
+</table>
+<script src="static/layui/layui.all.js"></script>
 </body>
 </html>
