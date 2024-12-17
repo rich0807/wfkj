@@ -10,9 +10,23 @@
     <select id="getDepartments" resultType="com.easy.bean.Department">
         select * from department
             <where>
-        <if test="id != null">
-            id=#{id}
+        <if test="checktext != null">
+           <bind name="check" value="'%'+checktext+'%'"></bind>
+            code like #{check} or info like #{check}
         </if>
             </where>
+        <if test="page.start!=-1">
+            limit #{page.start},#{page.limit}
+        </if>
+    </select>
+
+    <select id="getCount" resultType="int">
+        select count(*) from department
+        <where>
+            <if test="checktext != null">
+                <bind name="check" value="'%'+checktext+'%'"></bind>
+                code like #{check} or info like #{check}
+            </if>
+        </where>
     </select>
 </mapper>
