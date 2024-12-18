@@ -33,4 +33,14 @@ public class DepartmentController {
     public int addDepartment(Department department) {
         return departmentDao.addDepartment(department);
     }
+    @PostMapping("/department/edit")
+    public int updateDepartment(Department department) {
+        return departmentDao.updateDepartment(department);
+    }
+   @DeleteMapping("/department/delete")
+    public int deleteDepartment(Department department) {
+        return departmentDao.deleteDepartment(department);
+    }
+
+
 }
