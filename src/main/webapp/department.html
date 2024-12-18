@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="static/layui/css/layui.css">
 </head>
 <body>
-<table class="layui-table" lay-data="{url:'/department/list', page:true, id:'datalist'}" lay-filter="test">
+<table class="layui-table" lay-data="{toolbar:'#toptools', url:'/department/list', page:true, id:'datalist'}" lay-filter="datalist">
     <thead>
     <tr>
         <th lay-data="{field:'id', sort: true}">ID</th>
@@ -16,6 +16,70 @@
     </tr>
     </thead>
 </table>
+<!--写一个新增窗口的组件-->
+<div id="addWin" lay-filter="addWin" class="layui-form" style="display: none">
+    <div class="layui-form-item">
+        <label class="layui-form-label">部门编号</label>
+        <div class="layui-input-block">
+            <input type="text" name="code" placeholder="请输入部门编号" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">部门名称</label>
+        <div class="layui-input-block">
+            <input type="text" name="info"  placeholder="请输入部门名称" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+</div>
+<!--表格头部工具栏-->
+<script type="text/html" id="toptools">
+<button type="button" class="layui-btn layui-btn-sm" lay-event="add">新增</button>
+</script>
 <script src="static/layui/layui.all.js"></script>
+<script>
+<!--    声明layui内部对象-->
+    const $=layui.$;
+    const table=layui.table;
+    const layer=layui.layer;
+    const form=layui.form;
+// 声明表格头部工具栏时间
+table.on("toolbar(datalist)",function(obj){
+var event=obj.event;
+if(event=="add"){
+    //点击新增按钮，执行的方法
+
+
+    //打开一个对话框（输入内容）
+  layer.open({
+      type:1,
+      title:"新增部门",
+      area:['300px','260px'],
+      content:$("#addWin"),
+      btn:['保存'],
+      btn1:function (){
+          //点击保存按钮，保存数据
+//获取表单数据
+          var formData=form.val("addWin");
+          $.ajax({
+              method:"post",
+              url:"/department/add",
+              data:formData,
+              success:function (result){
+                  //关闭对话框
+              layer.closeAll();
+                  //刷新数据
+                table.reload("datalist");
+                  //提示用户，数据保存成功/失败
+              layer.msg("添加成功",{icon:1,time:1800});
+              }
+          });
+
+      }
+  });
+
+}
+});
+
+</script>
 </body>
 </html>

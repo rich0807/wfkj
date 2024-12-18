@@ -1,7 +1,7 @@
 package com.easy.util;
 
 import java.util.List;
-
+//TODO name set ZhangHongQianLayData
 public class ZhangHongQianLayData {
     private int code=0;
     private String msg="";

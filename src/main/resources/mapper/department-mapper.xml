@@ -6,7 +6,6 @@
 <select id="getDepartmentById" resultType="com.easy.bean.Department">
     select * from department where id=#{id}
     </select>
-
     <select id="getDepartments" resultType="com.easy.bean.Department">
         select * from department
             <where>
@@ -29,4 +28,16 @@
             </if>
         </where>
     </select>
+
+    <insert id="addDepartment" >
+        insert into department(code,info) values(#{code},#{info})
+    </insert>
+
+    <update id="updateDepartment" >
+        update department set code=#{code},info=#{info} where id=#{id}
+    </update>
+
+    <delete id="deleteDepartment" >
+        delete from department where id=#{id}
+    </delete>
 </mapper>

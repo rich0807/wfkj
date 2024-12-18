@@ -16,4 +16,8 @@ public interface DepartmentDao {
 
  List<Department> getDepartments(@Param("checktext") String checktext,
                                  @Param("page") Page page);
+ //新增，修改，删除
+ int addDepartment(Department department);
+ int updateDepartment(Department department);
+ int deleteDepartment(Department department);
 }
