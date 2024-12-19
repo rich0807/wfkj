@@ -29,7 +29,7 @@
 
     <insert id="addEmployee" >
         insert into employee(
-                             code,name,sex,tel,salary,department
+                             code,name,sex,tel,salary,departmentid
         ) values(
                  #{code},#{name},#{sex},#{tel},#{salary},#{departmentid}
                         )
