@@ -2,8 +2,10 @@ package com.easy.controller;
 
 import com.easy.bean.Department;
 import com.easy.dao.DepartmentDao;
-import com.easy.util.Page;
+import com.easy.util.PageQuery;
 import com.easy.util.ZhangHongQianLayData;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,12 +39,12 @@ public class DepartmentController {
     * @Date: 2024/12/18
     */
     @GetMapping("department/list")
-    public ZhangHongQianLayData getList(String checktext, Page page){
-    int count=departmentDao.getCount(checktext);
-    List<Department> data=departmentDao.getDepartments(checktext,page);
+    public ZhangHongQianLayData getList(String checktext, PageQuery page){
+        PageHelper.startPage(page.getPage(),page.getLimit());
+    Page<Department> data=departmentDao.getDepartments(checktext);
   ZhangHongQianLayData result=new ZhangHongQianLayData();
-  result.setData(data);
-  result.setCount(count);
+  result.setData(data.getResult());
+  result.setCount(data.getTotal());
   return result;
     }
 

@@ -1,7 +1,7 @@
 package com.easy.dao;
 
 import com.easy.bean.Department;
-import com.easy.util.Page;
+import com.github.pagehelper.Page;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -15,8 +15,7 @@ public interface DepartmentDao {
 
  int getCount(String checktext);
 
- List<Department> getDepartments(@Param("checktext") String checktext,
-                                 @Param("page") Page page);
+ Page<Department> getDepartments(@Param("checktext") String checktext);
  //新增，修改，删除
  int addDepartment(Department department);
 

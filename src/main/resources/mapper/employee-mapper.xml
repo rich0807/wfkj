@@ -12,9 +12,7 @@
             code like #{check} or info like #{check}
         </if>
             </where>
-        <if test="page.start!=-1">
-            limit #{page.start},#{page.limit}
-        </if>
+
     </select>
 
     <select id="getCount" resultType="int">

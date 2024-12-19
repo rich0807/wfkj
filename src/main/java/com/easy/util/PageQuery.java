@@ -1,39 +1,18 @@
 package com.easy.util;
 
-public class Page {
+public class PageQuery {
     //start 开始位置
     //page 当前页
     //limit 每页显示的数量
-    private int start=-1;
     private int page=-1;
     private int limit=-1;
 
-    public Page() {
+    public PageQuery() {
     }
 
-    public Page(int start, int page, int limit) {
-        this.start = start;
+    public PageQuery( int page, int limit) {
         this.page = page;
         this.limit = limit;
-    }
-
-    /**
-     * 获取
-     * @return start
-     */
-    public int getStart() {
-     if(start!=-1&&limit!=-1){
-         start=(page-1)*limit;
-     }
-        return start;
-    }
-
-    /**
-     * 设置
-     * @param start
-     */
-    public void setStart(int start) {
-        this.start = start;
     }
 
     /**
@@ -69,6 +48,6 @@ public class Page {
     }
 
     public String toString() {
-        return "Page{start = " + start + ", page = " + page + ", limit = " + limit + "}";
+        return "Page{ page = " + page + ", limit = " + limit + "}";
     }
 }

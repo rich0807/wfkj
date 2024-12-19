@@ -2,16 +2,16 @@ package com.easy.util;
 
 import java.util.List;
 //TODO name set ZhangHongQianLayData
-public class ZhangHongQianLayData {
+public class ZhangHongQianLayData<T> {
     private int code=0;
     private String msg="";
-    private int count=100;
-    private List data;
+    private Long count;
+    private List<T> data;
 
     public ZhangHongQianLayData() {
     }
 
-    public ZhangHongQianLayData(int code, String msg, int count, List data) {
+    public ZhangHongQianLayData(int code, String msg, long count, List data) {
         this.code = code;
         this.msg = msg;
         this.count = count;
@@ -54,7 +54,7 @@ public class ZhangHongQianLayData {
      * 获取
      * @return count
      */
-    public int getCount() {
+    public Long getCount() {
         return count;
     }
 
@@ -62,7 +62,7 @@ public class ZhangHongQianLayData {
      * 设置
      * @param count
      */
-    public void setCount(int count) {
+    public void setCount(Long count) {
         this.count = count;
     }
 

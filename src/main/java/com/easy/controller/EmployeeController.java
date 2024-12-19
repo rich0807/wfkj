@@ -4,8 +4,10 @@ import com.easy.bean.Department;
 import com.easy.bean.Employee;
 import com.easy.dao.DepartmentDao;
 import com.easy.dao.EmployeeDao;
-import com.easy.util.Page;
+import com.easy.util.PageQuery;
 import com.easy.util.ZhangHongQianLayData;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,19 +29,20 @@ public class EmployeeController {
     * @Date: 2024/12/19
     */
     @GetMapping("employee/list")
-    public ZhangHongQianLayData getList(String checktext, Page page){
-    int count=employeeDao.getCount(checktext);
-    List<Employee> data=employeeDao.getEmployees(checktext,page);
+    public ZhangHongQianLayData getList(String checktext, PageQuery page){
+        PageHelper.startPage(page.getPage(),page.getLimit());
+
+        Page<Employee> data=employeeDao.getEmployees(checktext);
     // List<Employee> data存储的是员工表中的信息，对象中还没有该员工部门的信息
         //需要动手查询设置进入每一个对象
-        for(Employee e:data){
+        for(Employee e:data.getResult()){
             int departmentId=e.getDepartmentid();
             Department department=departmentDao.getDepartmentById(departmentId);
             e.setDepartment(department);
         }
   ZhangHongQianLayData result=new ZhangHongQianLayData();
-  result.setData(data);
-  result.setCount(count);
+  result.setData(data.getResult());
+  result.setCount(data.getTotal());
   return result;
     }
 

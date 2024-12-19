@@ -17,7 +17,7 @@
         <th lay-data="{field:'sex'}">性别</th>
         <th lay-data="{field:'salary'}">薪资</th>
         <th lay-data="{field:'tel'}">联系电话</th>
-        <th lay-data="{templet:function(d){ return d.department.info}}">所属部门</th>
+        <th lay-data="{templet:function(d){ return d.department?.info || '空'}}">所属部门</th>
         <!--toolbar:'#linetools' 按钮将会显示在网页中 -->
         <th lay-data="{toolbar:'#linetools'}">操作</th>
     </tr>
