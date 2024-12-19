@@ -1,10 +1,164 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <base href="http://localhost:8080/">
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="static/layui/css/layui.css">
 </head>
 <body>
-员工管理
+<table class="layui-table" lay-data="{toolbar:'#toptools', url:'/employee/list', page:true, id:'datalist'}" lay-filter="datalist">
+    <thead>
+    <tr>
+        <th lay-data="{field:'id', sort: true}">ID</th>
+        <th lay-data="{field:'code'}">编号</th>
+        <th lay-data="{field:'info', sort: true}">部门名称</th>
+        <!--toolbar:'#linetools' 按钮将会显示在网页中 -->
+        <th lay-data="{toolbar:'#linetools'}">操作</th>
+    </tr>
+    </thead>
+</table>
+<!--写一个新增窗口的组件-->
+<div id="addWin" lay-filter="addWin" class="layui-form" style="display: none">
+    <div class="layui-form-item">
+        <label class="layui-form-label">部门编号</label>
+        <div class="layui-input-block">
+            <input type="text" name="code" placeholder="请输入部门编号" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">部门名称</label>
+        <div class="layui-input-block">
+            <input type="text" name="info"  placeholder="请输入部门名称" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+</div>
+<!--编辑窗口的组件-->
+<div id="editWin" lay-filter="editWin" class="layui-form" style="display: none">
+    <input type="hidden" name="id">
+    <div class="layui-form-item">
+        <label class="layui-form-label">部门编号</label>
+        <div class="layui-input-block">
+            <input type="text" name="code" placeholder="请输入部门编号" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">部门名称</label>
+        <div class="layui-input-block">
+            <input type="text" name="info"  placeholder="请输入部门名称" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+</div>
+<!--表格头部工具栏 按钮-->
+<script type="text/html" id="toptools">
+    <button type="button" class="layui-btn layui-btn-sm"
+            lay-event="add">新增</button>
+</script>
+<!--表格行内工具栏 按钮-->
+<script type="text/html" id="linetools">
+    <button type="button" class="layui-btn layui-btn-xs layui-bg-orange"
+            lay-event="edit">编辑</button>
+    <button type="button" class="layui-btn layui-btn-xs layui-bg-red"
+            lay-event="delete">删除</button>
+</script>
+<script src="static/layui/layui.all.js"></script>
+<script>
+    <!--    声明layui内部对象-->
+    const $=layui.$;
+    const table=layui.table;
+    const layer=layui.layer;
+    const form=layui.form;
+    // 声明表格头部工具栏时间
+    table.on("toolbar(datalist)",function(obj){
+        var event=obj.event;
+        if(event=="add"){
+            //点击新增按钮，执行的方法,将文本框赋值为空
+            form.val("addWin",{code:"",info:""})
+            //打开一个对话框（输入内容）
+            layer.open({
+                type:1,
+                title:"新增部门",
+                area:['300px','260px'],
+                content:$("#addWin"),
+                btn:['保存'],
+                btn1:function (){
+                    //点击保存按钮，保存数据
+//获取表单数据
+                    var formData=form.val("addWin");
+                    $.ajax({
+                        method:"post",
+                        url:"/department/add",
+                        data:formData,
+                        success:function (result){
+                            //关闭对话框
+                            layer.closeAll();
+                            //刷新数据
+                            table.reload("datalist");
+                            //提示用户，数据保存成功/失败
+                            layer.msg("添加成功",{icon:1,time:1800});
+                        }
+                    });
+
+                }
+            });
+
+        }
+    });
+    // 行内工具栏的监听视角
+    table.on("tool(datalist)",function (obj){
+        var event=obj.event;
+        var data=obj.data;//点击按钮所在行的数据
+        if(event=='edit'){
+            //点击编辑按钮执行的方法,data是当前行的数据
+            form.val("editWin",data);//显示原始数据
+            //打开对话框
+            layer.open({
+                type:1,
+                title:'编辑部门',
+                area:['300px','260px'],
+                content:$("#editWin"),
+                btn:["保存"],
+                btn1:function (){
+                    //获取表单数据
+                    var formdata=form.val("editWin");
+                    //提交数据
+                    $.ajax({
+                        method:"post",
+                        url:"department/edit",
+                        data:formdata,
+                        success:function (result){
+                            //刷新表格
+                            table.reload("datalist");
+                            // 关闭窗口
+                            layer.closeAll();
+                            //提示用户
+                            layer.msg("保存成功",{icon:1,time:1800});
+                        }
+                    });
+
+                }
+            });
+        }
+        if(event=='delete'){
+            //点击删除按钮执行的方法
+            //确认是否删除数据
+            layer.confirm("确认删除该行数据吗？",function (){
+                //点击确认后执行的代码
+                $.ajax({
+                    method:"delete",
+                    url:"department/delete",
+                    data:data,
+                    success:function (){
+                        layer.closeAll();
+                        table.reload("datalist");
+                        layer.msg("删除成功",{icon:1,time:1800});
+                    }
+                });
+
+            });
+        }
+    });
+
+</script>
 </body>
 </html>
