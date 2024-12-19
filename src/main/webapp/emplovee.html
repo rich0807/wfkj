@@ -7,12 +7,17 @@
     <link rel="stylesheet" href="static/layui/css/layui.css">
 </head>
 <body>
+<!--url:'/employee/list'  表格数据的来源 -->
 <table class="layui-table" lay-data="{toolbar:'#toptools', url:'/employee/list', page:true, id:'datalist'}" lay-filter="datalist">
     <thead>
     <tr>
         <th lay-data="{field:'id', sort: true}">ID</th>
         <th lay-data="{field:'code'}">编号</th>
-        <th lay-data="{field:'info', sort: true}">部门名称</th>
+        <th lay-data="{field:'name'}">姓名</th>
+        <th lay-data="{field:'sex'}">性别</th>
+        <th lay-data="{field:'salary'}">薪资</th>
+        <th lay-data="{field:'tel'}">联系电话</th>
+        <th lay-data="{templet:function(d){ return d.department.info}}">所属部门</th>
         <!--toolbar:'#linetools' 按钮将会显示在网页中 -->
         <th lay-data="{toolbar:'#linetools'}">操作</th>
     </tr>
@@ -21,33 +26,92 @@
 <!--写一个新增窗口的组件-->
 <div id="addWin" lay-filter="addWin" class="layui-form" style="display: none">
     <div class="layui-form-item">
-        <label class="layui-form-label">部门编号</label>
+        <label class="layui-form-label">所属部门</label>
         <div class="layui-input-block">
-            <input type="text" name="code" placeholder="请输入部门编号" autocomplete="off" class="layui-input">
+            <select name="departmentid" >
+
+            </select>
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">部门名称</label>
+        <label class="layui-form-label">员工编号</label>
         <div class="layui-input-block">
-            <input type="text" name="info"  placeholder="请输入部门名称" autocomplete="off" class="layui-input">
+            <input type="text" name="code" placeholder="请输入员工编号" autocomplete="off" class="layui-input">
         </div>
     </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">姓名</label>
+        <div class="layui-input-block">
+            <input type="text" name="name"  placeholder="请输入员工姓名" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">性别</label>
+        <div class="layui-input-block">
+            <input type="radio" name="sex" value="男" title="男">
+            <input type="radio" name="sex" value="女" title="女" checked>
+           </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">联系电话</label>
+        <div class="layui-input-block">
+            <input type="text" name="tel"  placeholder="请输入联系方式" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">薪资</label>
+        <div class="layui-input-block">
+            <input type="text" name="salary"  placeholder="请输入员工薪资" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+
+
 </div>
 <!--编辑窗口的组件-->
 <div id="editWin" lay-filter="editWin" class="layui-form" style="display: none">
     <input type="hidden" name="id">
     <div class="layui-form-item">
-        <label class="layui-form-label">部门编号</label>
+        <label class="layui-form-label">所属部门</label>
         <div class="layui-input-block">
-            <input type="text" name="code" placeholder="请输入部门编号" autocomplete="off" class="layui-input">
+            <select name="departmentid" >
+
+            </select>
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">部门名称</label>
+        <label class="layui-form-label">员工编号</label>
         <div class="layui-input-block">
-            <input type="text" name="info"  placeholder="请输入部门名称" autocomplete="off" class="layui-input">
+            <input type="text" name="code" placeholder="请输入员工编号" autocomplete="off" class="layui-input">
         </div>
     </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">姓名</label>
+        <div class="layui-input-block">
+            <input type="text" name="name"  placeholder="请输入员工姓名" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">性别</label>
+        <div class="layui-input-block">
+            <input type="radio" name="sex" value="男" title="男">
+            <input type="radio" name="sex" value="女" title="女" checked>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">联系电话</label>
+        <div class="layui-input-block">
+            <input type="text" name="tel"  placeholder="请输入联系方式" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">薪资</label>
+        <div class="layui-input-block">
+            <input type="text" name="salary"  placeholder="请输入员工薪资" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+
 </div>
 <!--表格头部工具栏 按钮-->
 <script type="text/html" id="toptools">
@@ -68,17 +132,33 @@
     const table=layui.table;
     const layer=layui.layer;
     const form=layui.form;
+
+    <!--     获取部门 信息，设置到部门选择框中-->
+    $.ajax({
+        url:"department/list",
+        success:function(result){
+         var data=result.data;
+         console.log(data);
+         for(index in data){
+   //           select后不要加空格
+   console.log(data[index].info);
+             $("select[name='departmentid']")
+                 .append("<option value='"+data[index].id+"'>"+data[index].info+"</option>");
+         }
+
+        }
+    });
     // 声明表格头部工具栏时间
     table.on("toolbar(datalist)",function(obj){
         var event=obj.event;
         if(event=="add"){
             //点击新增按钮，执行的方法,将文本框赋值为空
-            form.val("addWin",{code:"",info:""})
+            form.val("addWin",{code:"",name:"",sex:"",tel:"",salary:"",departmentid:""})
             //打开一个对话框（输入内容）
             layer.open({
                 type:1,
-                title:"新增部门",
-                area:['300px','260px'],
+                title:"新增员工",
+                area:['400px','480px'],
                 content:$("#addWin"),
                 btn:['保存'],
                 btn1:function (){
@@ -87,7 +167,7 @@
                     var formData=form.val("addWin");
                     $.ajax({
                         method:"post",
-                        url:"/department/add",
+                        url:"/employee/add",
                         data:formData,
                         success:function (result){
                             //关闭对话框
@@ -115,7 +195,7 @@
             layer.open({
                 type:1,
                 title:'编辑部门',
-                area:['300px','260px'],
+                area:['400px','480px'],
                 content:$("#editWin"),
                 btn:["保存"],
                 btn1:function (){
