@@ -81,7 +81,7 @@ public class EmployeeController {
 * @Date: 2024/12/19
 */
    @DeleteMapping("/employee/delete")
-    public int deleteEmployee(Employee employee) {
-        return employeeDao.deleteEmployee(employee);
+    public int deleteEmployee(Integer id) {
+        return employeeDao.deleteEmployee(id);
     }
 }

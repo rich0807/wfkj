@@ -40,4 +40,11 @@
     <delete id="deleteDepartment" >
         delete from department where id=#{id}
     </delete>
+
+    <select id="echartsA" resultType="hashmap">
+        select a.info,b.ecount from department as a
+         left join  (select departmentid,count(*) as ecount
+          from employee group by departmentid )
+            as b on a.id=b.departmentid
+    </select>
 </mapper>

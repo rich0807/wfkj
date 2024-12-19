@@ -194,7 +194,7 @@
             //打开对话框
             layer.open({
                 type:1,
-                title:'编辑部门',
+                title:'编辑员工信息',
                 area:['400px','480px'],
                 content:$("#editWin"),
                 btn:["保存"],
@@ -204,7 +204,7 @@
                     //提交数据
                     $.ajax({
                         method:"post",
-                        url:"department/edit",
+                        url:"employee/edit",
                         data:formdata,
                         success:function (result){
                             //刷新表格
@@ -226,7 +226,7 @@
                 //点击确认后执行的代码
                 $.ajax({
                     method:"delete",
-                    url:"department/delete",
+                    url:"employee/delete",
                     data:data,
                     success:function (){
                         layer.closeAll();

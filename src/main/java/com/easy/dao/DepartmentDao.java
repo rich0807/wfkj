@@ -5,6 +5,7 @@ import com.easy.util.Page;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Mapper
@@ -18,6 +19,10 @@ public interface DepartmentDao {
                                  @Param("page") Page page);
  //新增，修改，删除
  int addDepartment(Department department);
+
  int updateDepartment(Department department);
+
  int deleteDepartment(Department department);
+
+ List<HashMap> echartsA();
 }

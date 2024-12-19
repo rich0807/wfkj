@@ -46,8 +46,6 @@ public class DepartmentController {
   return result;
     }
 
-
-
     /**
     * @Description: addDepartment
     * @Param: [department]
@@ -59,8 +57,6 @@ public class DepartmentController {
     public int addDepartment(Department department) {
         return departmentDao.addDepartment(department);
     }
-
-
 
     /**
     * @Description: updateDepartment
@@ -74,8 +70,6 @@ public class DepartmentController {
         return departmentDao.updateDepartment(department);
     }
 
-
-
     /**
     * @Description: deleteDepartment
     * @Param: [department]
@@ -87,4 +81,17 @@ public class DepartmentController {
     public int deleteDepartment(Department department) {
         return departmentDao.deleteDepartment(department);
     }
+    /** 
+    * @Description: echartsA
+    * @Param: []
+    * @return: java.util.List
+    * @Author: Zhang_HongQian
+    * @Date: 2024/12/19
+    */
+    @GetMapping("echartsa")
+    public List echartsA(){
+       return departmentDao.echartsA();
+    }
+
+
 }

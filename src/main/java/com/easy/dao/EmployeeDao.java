@@ -21,5 +21,5 @@ public interface EmployeeDao {
  //新增，修改，删除
  int addEmployee(Employee employee);
  int updateEmployee(Employee employee);
- int deleteEmployee(Employee employee);
+ int deleteEmployee(Integer id);
 }

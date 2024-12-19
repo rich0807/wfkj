@@ -43,6 +43,7 @@
     </update>
 
     <delete id="deleteEmployee">
-        delete from employee where id=#{id}
+        delete from employee
+               where id=#{id}
     </delete>
 </mapper>
